@@ -74,4 +74,14 @@ if file:
         results = edited[["Material", "Total Emission", "Percent Emission"]]
 
         def pct_color(val):
+            color = "red" if isinstance(val, float) and val > 10 else "#0074D9"
+            return f"background-color: {color}; color: white;" if val > 10 else ""
+        styled_results = results.style.applymap(pct_color, subset=["Percent Emission"])
+        st.dataframe(styled_results, use_container_width=True)
+
+        st.markdown(f"**Total Emission ({impact_choice}):** {total_emission:.2f} {chosen_unit}")
+else:
+    st.info("Please upload an Excel file with columns: Material, Quantity, Unit, and 13 emission factors.")
+
+st.caption("Select the impact category and upload your input table. Results update instantly. Hotspots are shown in red.")
 
